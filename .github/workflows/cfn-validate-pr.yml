@@ -16,6 +16,7 @@ permissions:
 
 jobs:
   validate-cfn:
+    if: github.event.action != 'closed'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -48,6 +49,7 @@ jobs:
               body: 'Cloudformation test stack deployed. Stack name: pr-test-stack-rmsg-${{ github.event.pull_request.number}}'
             })
   cleanup-on-merge:
+    if: github.event.action == 'closed' && github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true
     steps:
